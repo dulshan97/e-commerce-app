@@ -13,10 +13,14 @@ const NavBar = () => {
 
     return (
         <div className='min-h-screen flex flex-col'>
-            <nav className="bg-blue-600 text-white p-4 flex justify-between items-center">
-               
-                <img src={logo} alt="logo" className="max-h-14 w-auto sm:h-24 md:h-32 rounded-lg" />
-                
+            <nav className="bg-gray-950 text-white p-4 flex justify-between items-center shadow-md">
+
+                <img
+                    src={logo}
+                    alt="logo"
+                    className="hidden custom-600:block max-h-14 w-auto rounded-lg"
+                />
+
                 <div className="flex gap-4">
                     <NavLink
                         to="/"
@@ -24,7 +28,7 @@ const NavBar = () => {
                             `hover:underline ${isActive ? 'font-bold' : ''}`
                         }
                     >
-                        Products
+                        <span>Products</span> 
                     </NavLink>
                     <NavLink
                         to="/cart"
@@ -35,14 +39,14 @@ const NavBar = () => {
                         Cart
                     </NavLink>
                 </div>
-                
-                <div className="flex items-center gap-4">
+
+                <div className="flex items-center gap-4 ">
                     <img
-                        src="https://via.placeholder.com/40" 
+                        src="https://via.placeholder.com/40"
                         alt="User Profile"
                         className="max-h-14 w-auto sm:h-24 md:h-32 rounded-full"
                     />
-                    <span className="font-medium">John Doe</span> 
+                    <span className="font-medium ">John Doe</span>
                     <div className="hover:text-gray-300 cursor-pointer" onClick={togglePanel}>
                         <FaCog size={24} />
                     </div>
@@ -51,10 +55,10 @@ const NavBar = () => {
 
             {/* Side Panel */}
             <div
-                className={`fixed top-0 right-0 h-full w-1/6 bg-white shadow-lg transform ${isPanelOpen ? 'translate-x-0' : 'translate-x-full'
+                className={`fixed top-0 right-0 h-full sm:w-1/6 md:2/6 w-full bg-white shadow-lg transform ${isPanelOpen ? 'translate-x-0' : 'translate-x-full'
                     } transition-transform duration-300 ease-in-out`}
             >
-                
+
                 <button
                     onClick={togglePanel}
                     className="absolute top-4 right-4 text-gray-600 hover:text-gray-900"
@@ -62,7 +66,7 @@ const NavBar = () => {
                     <RiCloseLargeLine />
                 </button>
 
-                
+
                 <div className="p-4">
                     <h2 className="text-lg font-bold mb-10">Settings</h2>
                     <ul className="space-y-4">
@@ -94,8 +98,8 @@ const NavBar = () => {
                 <Outlet />
             </main>
 
-            
-            <footer className="bg-gray-800 text-white p-4 text-center">
+
+            <footer className="bg-gray-950 text-white p-4 text-center">
                 © 2024 E-Commerce App. All rights reserved.
             </footer>
         </div>
