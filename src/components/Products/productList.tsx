@@ -1,5 +1,6 @@
 import React from "react";
 import cloth1 from '../../assets/images/productList/clothing1.png'
+import { motion } from "framer-motion";
 
 const products = [
   {
@@ -39,40 +40,36 @@ const products = [
 const ProductList = () => {
   return (
     <div className="p-6">
-      <h1 className="text-2xl font-bold text-center mb-8">Shop the Collection</h1>
+      <h1 className="text-2xl font-bold text-center mb-8">Product List</h1>
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
         {products.map((product) => (
-          <div
+          <motion.div
             key={product.id}
             className="bg-white shadow-md rounded-lg p-4 hover:shadow-lg transition"
+            whileHover={{
+              scale: 1.05,
+              boxShadow: "0px 10px 20px rgba(0, 0, 0, 0.2)",
+            }}
+            whileTap={{ scale: 0.95 }}
           >
-            <div className="relative">
-              <img
-                src={cloth1}
-                alt={product.name}
-                className="w-full h-[calc(100vw*5/4)] sm:h-[500px] object-cover rounded-t-lg"
-              />
-              {product.oldPrice && (
-                <span className="absolute top-2 left-2 bg-red-500 text-white text-xs px-2 py-1 rounded">
-                  Sale
-                </span>
-              )}
-            </div>
+            <motion.img
+              src={cloth1}
+              alt={product.name}
+              className="w-full h-[500px] object-cover rounded-t-lg"
+              initial={{ opacity: 0, y: 50 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5 }}
+            />
             <h2 className="text-lg font-semibold mt-4">{product.name}</h2>
-            <div className="flex items-center space-x-2">
-              <span className="text-gray-900 font-bold">{product.price}</span>
-              {product.oldPrice && (
-                <span className="text-gray-500 line-through">{product.oldPrice}</span>
-              )}
-            </div>
-            <div className="text-yellow-500 text-sm mt-1">
-              {"⭐".repeat(Math.floor(product.rating))}{" "}
-              {product.rating % 1 !== 0 && "⭐"}
-            </div>
-            <button className="mt-4 bg-blue-500 text-white py-2 px-4 rounded-lg hover:bg-blue-600 w-full">
+            <p className="text-gray-700">{product.price}</p>
+            <motion.button
+              className="mt-4 bg-blue-500 text-white py-2 px-4 rounded-lg hover:bg-blue-600"
+              whileHover={{ scale: 1.1 }}
+              whileTap={{ scale: 0.9 }}
+            >
               Add to Cart
-            </button>
-          </div>
+            </motion.button>
+          </motion.div>
         ))}
       </div>
     </div>
