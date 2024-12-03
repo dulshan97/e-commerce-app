@@ -2,10 +2,6 @@ import React, { createContext, useState, useContext, useCallback, useMemo } from
 import { CartItem, Product } from '../models/product';
 import { CartContextType } from '../models/cartContext';
 
-
-
-
-
 const CartContext = createContext<CartContextType | undefined>(undefined);
 
 export const CartProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
