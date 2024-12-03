@@ -3,7 +3,7 @@ import ProductList from './components/Products/productList';
 import Login from './components/Auth/login';
 import Signup from './components/Auth/signup';
 import ShoppingCart from './components/Cart/shoppingCart';
-import NavBar from './components/commen/navbar';
+import NavBar from './components/common/navbar';
 import { RouteName } from './routes/RouteName';
 
 
