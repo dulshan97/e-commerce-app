@@ -1,43 +1,47 @@
-import { useCallback, useMemo, useState } from "react";
-import { CartItem, Product } from "../models/product";
+import { useState } from 'react';
 
-export const useCart = () => {
+interface CartItem {
+  id: string;
+  name: string;
+  price: number;
+  quantity: number;
+  image: string;
+}
+
+const useCart = () => {
   const [cart, setCart] = useState<CartItem[]>([]);
 
-  const addToCart = useCallback((product: Product) => {
-    setCart(currentCart => {
-      const existingItemIndex = currentCart.findIndex(item => item.id === product.id);
-
-      if (existingItemIndex > -1) {
-        const updatedCart = [...currentCart];
-        updatedCart[existingItemIndex].quantity += 1;
-        return updatedCart;
+  
+  const addToCart = (item: Omit<CartItem, 'quantity'>) => {
+    setCart((prevCart) => {
+      const existingItem = prevCart.find((cartItem) => cartItem.id === item.id);
+      if (existingItem) {
+        // Increase quantity if item already exists
+        return prevCart.map((cartItem) =>
+          cartItem.id === item.id
+            ? { ...cartItem, quantity: cartItem.quantity + 1 }
+            : cartItem
+        );
       }
-
-      return [...currentCart, { ...product, quantity: 1 }];
+      // Add new item to the cart
+      return [...prevCart, { ...item, quantity: 1 }];
     });
-  }, []);
+  };
 
-  const removeFromCart = useCallback((productId: string) => {
-    setCart(currentCart => currentCart.filter(item => item.id !== productId));
-  }, []);
+  
+  const removeFromCart = (id: string) => {
+    setCart((prevCart) => prevCart.filter((item) => item.id !== id));
+  };
 
-  const updateQuantity = useCallback((productId: string, newQuantity: number) => {
-    setCart(currentCart =>
-      currentCart
-        .map(item =>
-          item.id === productId
-            ? { ...item, quantity: Math.max(0, newQuantity) }
-            : item
-        )
-        .filter(item => item.quantity > 0)
-    );
-  }, []);
+  
+  const cartTotal = cart.reduce((total, item) => total + item.price * item.quantity, 0);
 
-  const cartTotal = useMemo(() =>
-    cart.reduce((total, item) => total + item.price * item.quantity, 0),
-    [cart]
-  );
-
-  return { cart, addToCart, removeFromCart, updateQuantity, cartTotal };
+  return {
+    cart,
+    addToCart,
+    removeFromCart,
+    cartTotal,
+  };
 };
+
+export default useCart;
