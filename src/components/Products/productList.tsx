@@ -1,16 +1,27 @@
-import React, { useCallback, useMemo, useState } from "react";
+
+import { useMemo, useState } from "react";
 import { ProductService } from "../../services/productServices";
 import { Product, ProductCategory } from "../../models/product";
 import ProductCard from "./productCard";
-import { useCart } from "../../hooks/useCart";
+import { useCart } from "../../context/cartContext";
 
-const ProductList = () => {
+interface ProductListProps {
+  searchTerm: string;
+  selectedCategory: string;
+}
+
+const ProductList: React.FC<ProductListProps> = ({
+  searchTerm,
+  selectedCategory
+}) => {
+  
   const [products] = useState<Product[]>(ProductService.getProducts());
-  const [searchTerm, setSearchTerm] = useState('');
-  const [selectedCategory, setSelectedCategory] = useState<ProductCategory>('All');
+  
   const [favoriteProducts, setFavoriteProducts] = useState<string[]>([]);
 
-  const { cart, addToCart } = useCart();
+  console.log("favourite", favoriteProducts)
+
+  const { addToCart } = useCart();
 
   const filteredProducts = useMemo(
     () =>
@@ -22,13 +33,13 @@ const ProductList = () => {
     [products, searchTerm, selectedCategory]
   );
 
-  const toggleFavorite = useCallback((productId: string) => {
+  const toggleFavorite = (productId: string) => {
     setFavoriteProducts(current =>
       current.includes(productId)
         ? current.filter(id => id !== productId)
         : [...current, productId]
     );
-  }, []);
+  };
 
   return (
     <div className="p-6">
