@@ -1,24 +1,18 @@
+// src/components/Cart/cartMenu.tsx
 import { AnimatePresence, motion } from 'framer-motion';
 import { X, Trash2 } from 'lucide-react';
 import React from 'react';
+import { useCart } from '../../context/cartContext';
 
-interface CartItem {
-  id: string;
-  name: string;
-  price: number;
-  quantity?: number;
-  image: string;
-}
 
 interface CartMenuProps {
   isCartOpen: boolean;
   toggleCart: () => void;
-  cartItems: CartItem[];
-  removeItem: (id: string) => void;
-  getTotalPrice: () => number;
 }
 
-const CartMenu: React.FC<CartMenuProps> = ({ isCartOpen, toggleCart, cartItems, removeItem, getTotalPrice }) => {
+const CartMenu: React.FC<CartMenuProps> = ({ isCartOpen, toggleCart }) => {
+  const { cart, removeFromCart, updateQuantity, cartTotal } = useCart();
+
   return (
     <AnimatePresence>
       {isCartOpen && (
@@ -38,8 +32,8 @@ const CartMenu: React.FC<CartMenuProps> = ({ isCartOpen, toggleCart, cartItems, 
           </div>
 
           {/* Cart Items */}
-          {cartItems.length > 0 ? (
-            cartItems.map((item) => (
+          {cart.length > 0 ? (
+            cart.map((item) => (
               <div key={item.id} className="flex items-center mb-4 pb-4 border-b">
                 <img
                   src={item.image}
@@ -52,13 +46,30 @@ const CartMenu: React.FC<CartMenuProps> = ({ isCartOpen, toggleCart, cartItems, 
                     ${item.price.toFixed(2)} x {item.quantity}
                   </p>
                 </div>
-                <motion.button
-                  whileTap={{ scale: 0.9 }}
-                  className="text-red-500 ml-2"
-                  onClick={() => removeItem(item.id)}
-                >
-                  <Trash2 size={18} />
-                </motion.button>
+                <div className="flex items-center space-x-2">
+                  <motion.button 
+                    whileTap={{ scale: 0.9 }}
+                    onClick={() => updateQuantity(item.id, item.quantity - 1)}
+                    className="bg-gray-200 px-2 rounded"
+                  >
+                    -
+                  </motion.button>
+                  <span>{item.quantity}</span>
+                  <motion.button 
+                    whileTap={{ scale: 0.9 }}
+                    onClick={() => updateQuantity(item.id, item.quantity + 1)}
+                    className="bg-gray-200 px-2 rounded"
+                  >
+                    +
+                  </motion.button>
+                  <motion.button
+                    whileTap={{ scale: 0.9 }}
+                    className="text-red-500 ml-2"
+                    onClick={() => removeFromCart(item.id)}
+                  >
+                    <Trash2 size={18} />
+                  </motion.button>
+                </div>
               </div>
             ))
           ) : (
@@ -69,7 +80,7 @@ const CartMenu: React.FC<CartMenuProps> = ({ isCartOpen, toggleCart, cartItems, 
           <div className="mt-6">
             <div className="flex justify-between mb-4">
               <span className="text-xl">Total:</span>
-              <span className="text-xl font-bold">${getTotalPrice().toFixed(2)}</span>
+              <span className="text-xl font-bold">${cartTotal.toFixed(2)}</span>
             </div>
             <motion.button
               whileHover={{ scale: 1.05 }}
