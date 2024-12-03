@@ -7,40 +7,23 @@ import {
     Heart,
     Menu,
     X,
-    
+
 } from 'lucide-react';
 import { motion } from 'framer-motion';
 import logo from '../../assets/images/layoutHeader/logo.png';
 import CartMenu from '../Cart/cartMenu';
-import { CartItem } from '../../models/product';
+import { useCart } from '../../context/cartContext';
+// import { CartItem } from '../../models/product';
 
 const NavBar: React.FC = () => {
     const [searchTerm, setSearchTerm] = useState('');
     const [selectedCategory, setSelectedCategory] = useState('All');
     const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
     const [isCartOpen, setIsCartOpen] = useState(false);
-    const [cartItems, setCartItems] = React.useState<CartItem[]>([
-        {
-            id: '1',
-            name: 'Classic Shirt',
-            price: 39.99,
-            description: 'A classic white shirt suitable for any occasion.',
-            category: 'Tops', 
-            image: '/path/to/image.jpg',
-            quantity: 1, 
-        },
-    ]);
+    const { cart } = useCart();
+
 
     const toggleCart = () => setIsCartOpen(!isCartOpen);
-
-    const removeItem = (id: string) => {
-        setCartItems(cartItems.filter((item) => item.id !== id));
-      };
-
-    const getTotalPrice = () => {
-        return cartItems.reduce((total, item) => total + item.price * item.quantity, 0);
-    };
-
 
 
     return (
@@ -120,7 +103,7 @@ const NavBar: React.FC = () => {
                         <button onClick={toggleCart} className="relative">
                             <ShoppingCart color="white" />
                             <span className="absolute -top-2 -right-2 bg-red-500 text-white text-xs rounded-full px-2">
-                                0
+                                {cart.reduce((total, item) => total + item.quantity, 0)}
                             </span>
                         </button>
                     </div>
@@ -131,9 +114,7 @@ const NavBar: React.FC = () => {
             <CartMenu
                 isCartOpen={isCartOpen}
                 toggleCart={toggleCart}
-                cartItems={cartItems}
-                removeItem={removeItem}
-                getTotalPrice={getTotalPrice}
+
             />
 
             {/* Main Content */}
