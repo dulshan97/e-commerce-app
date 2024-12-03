@@ -7,6 +7,7 @@ import NavBar from './components/common/navbar';
 import { RouteName } from './routes/RouteName';
 import { CartProvider } from './context/cartContext';
 import { useState } from 'react';
+import ProtectedRoute from './components/common/protectedRoute';
 
 
 const App = () => {
@@ -14,19 +15,25 @@ const App = () => {
   const [selectedCategory, setSelectedCategory] = useState('All');
 
   return (
+
     <CartProvider>
       <Router>
         <Routes>
-          <Route element={< NavBar
-            searchTerm={searchTerm}
-            setSearchTerm={setSearchTerm}
-            selectedCategory={selectedCategory}
-            setSelectedCategory={setSelectedCategory}
-          />}>
-            <Route path={RouteName.ROOT} element={<ProductList searchTerm={searchTerm} selectedCategory={selectedCategory} />} />
-            <Route path={RouteName.LOGIN} element={<Login />} />
-            <Route path={RouteName.SIGNUP} element={<Signup />} />
-            <Route path={RouteName.CART} element={<ShoppingCart />} />
+          <Route path={RouteName.LOGIN} element={<Login />} />
+          <Route path={RouteName.SIGNUP} element={<Signup />} />
+
+          <Route element={<ProtectedRoute />}>
+
+            <Route element={< NavBar
+              searchTerm={searchTerm}
+              setSearchTerm={setSearchTerm}
+              selectedCategory={selectedCategory}
+              setSelectedCategory={setSelectedCategory}
+            />}>
+              <Route path={RouteName.ROOT} element={<ProductList searchTerm={searchTerm} selectedCategory={selectedCategory} />} />
+
+              <Route path={RouteName.CART} element={<ShoppingCart />} />
+            </Route>
           </Route>
         </Routes>
       </Router>
