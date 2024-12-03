@@ -1,9 +1,10 @@
 import { Product } from "../models/product";
 import lightweightHoodie from "../assets/images/productList/clothing1.png";
+import { generateId } from "../Utils/idgenetrator";
+
 
 // Utility for generating unique IDs
-const generateId = (): string =>
-  `${Date.now()}-${Math.random().toString(36).substr(2, 9)}`;
+
 
 // Mock data service
 export const ProductService = {
