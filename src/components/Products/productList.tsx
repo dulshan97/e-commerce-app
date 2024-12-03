@@ -1,7 +1,7 @@
 
 import { useMemo, useState } from "react";
 import { ProductService } from "../../services/productServices";
-import { Product, ProductCategory } from "../../models/product";
+import { Product } from "../../models/product";
 import ProductCard from "./productCard";
 import { useCart } from "../../context/cartContext";
 
@@ -14,7 +14,7 @@ const ProductList: React.FC<ProductListProps> = ({
   searchTerm,
   selectedCategory
 }) => {
-  
+
   const [products] = useState<Product[]>(ProductService.getProducts());
   
   const [favoriteProducts, setFavoriteProducts] = useState<string[]>([]);
