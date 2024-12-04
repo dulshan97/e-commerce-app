@@ -25,12 +25,11 @@ const Login: React.FC = () => {
     try {
       const registeredUsers = JSON.parse(localStorage.getItem('registeredUsers') || '[]');
 
-      // Find user by email
       const user = registeredUsers.find((u: UserDetails) => u.email === values.email);
 
-      // Validate email and password
+      
       if (user && user.password === values.password) {
-        // Set current user
+        
         localStorage.setItem(
           'currentUser',
           JSON.stringify({
