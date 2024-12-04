@@ -7,6 +7,7 @@ import { RouteName } from './routes/RouteName';
 import { CartProvider } from './context/cartContext';
 import { useState } from 'react';
 import ProtectedRoute from './components/common/protectedRoute';
+import PageNotFound from './components/common/404';
 
 
 const App = () => {
@@ -20,6 +21,7 @@ const App = () => {
         <Routes>
           <Route path={RouteName.LOGIN} element={<Login />} />
           <Route path={RouteName.SIGNUP} element={<Signup />} />
+          <Route path={RouteName.NOTFOUND} element={<PageNotFound />} />
 
           <Route element={<ProtectedRoute />}>
 
@@ -29,7 +31,7 @@ const App = () => {
               selectedCategory={selectedCategory}
               setSelectedCategory={setSelectedCategory}
             />}>
-              <Route path={RouteName.ROOT} element={<ProductList searchTerm={searchTerm} selectedCategory={selectedCategory} />} />
+              <Route path={RouteName.PRODUCTLIST} element={<ProductList searchTerm={searchTerm} selectedCategory={selectedCategory} />} />
             </Route>
           </Route>
         </Routes>
