@@ -15,6 +15,7 @@ import { useCart } from '../../context/cartContext';
 
 import UserMenu from './userProfile';
 import { motion } from 'framer-motion';
+import { RouteName } from '../../routes/RouteName';
 
 interface NavBarProps {
     searchTerm: string;
@@ -70,7 +71,7 @@ const NavBar: React.FC<NavBarProps> = ({
                             alt="logo"
                             className="max-h-14 w-auto rounded-lg hidden md:block cursor-pointer"
                             onClick={() => {
-                                window.location.href = '/';
+                                window.location.href = RouteName.PRODUCTLIST;
                             }}
                         />
 
@@ -140,7 +141,7 @@ const NavBar: React.FC<NavBarProps> = ({
 
             <CartMenu isCartOpen={isCartOpen} toggleCart={toggleCart} />
 
-            <main className="flex-grow p-24">
+            <main className="flex-grow p-2 2xl:p-24">
                 <Outlet />
             </main>
 
