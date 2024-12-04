@@ -1,29 +1,18 @@
-import React from 'react';
-import { Formik, Form, Field, ErrorMessage } from 'formik';
-import * as Yup from 'yup';
+// src/pages/Signup.tsx
+import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
 import { RouteName } from '../../routes/RouteName';
 import { UserDetails } from '../../models/user';
+import { SignupSchema } from '../../Utils/validations/signUpValidationSchema';
+import SignupErrorMessage from './signUpErrorMsg';
+import SignupForm from './signUpForm';
+import { Shirt, ShoppingCart } from 'lucide-react';
 
-// Validation Schema
-const SignupSchema = Yup.object().shape({
-    username: Yup.string()
-        .min(3, 'Username must be at least 3 characters')
-        .required('Username is required'),
-    email: Yup.string()
-        .email('Invalid email address')
-        .required('Email is required'),
-    password: Yup.string()
-        .min(6, 'Password must be at least 6 characters')
-        .required('Password is required'),
-    confirmPassword: Yup.string()
-        .oneOf([Yup.ref('password')], 'Passwords must match')
-        .required('Confirm password is required')
-});
 
 const Signup: React.FC = () => {
     const navigate = useNavigate();
+    const [signupError, setSignupError] = useState('');
 
     const handleSignup = (values: {
         username: string;
@@ -37,7 +26,7 @@ const Signup: React.FC = () => {
             // Check if email already exists
             const existingUser = users.find((u: UserDetails) => u.email === values.email);
             if (existingUser) {
-                alert('Email already registered');
+                setSignupError('Email already registered');
                 return;
             }
 
@@ -61,23 +50,85 @@ const Signup: React.FC = () => {
 
             navigate(RouteName.ROOT);
         } catch (error) {
+            setSignupError('Signup failed');
             console.error('Signup failed', error);
         }
     };
 
     return (
-        <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-green-50 to-green-100 px-4">
+        <div className="min-h-screen relative flex items-center justify-center overflow-hidden 
+                bg-gradient-to-br from-pink-50 via-white to-purple-50 p-4">
+            
+            
+
+            {/* Floating Clothing Elements */}
+            <motion.div
+                initial={{ opacity: 0, y: 50 }}
+                animate={{ opacity: 0.2, y: 0 }}
+                transition={{ duration: 0.5, delay: 0.5 }}
+                className="absolute top-20 left-10 transform rotate-12 opacity-20"
+            >
+                <Shirt />
+            </motion.div>
+            <motion.div
+                initial={{ opacity: 0, y: 50 }}
+                animate={{ opacity: 0.2, y: 0 }}
+                transition={{ duration: 0.5, delay: 0.5 }}
+                className="absolute top-64 right-20 transform rotate-12 opacity-20"
+            >
+                <Shirt />
+            </motion.div>
+
+            <motion.div
+                initial={{ opacity: 0, y: -50 }}
+                animate={{ opacity: 0.2, y: 0 }}
+                transition={{ duration: 0.5, delay: 0.7 }}
+                className="absolute bottom-20 right-10 transform -rotate-12 opacity-20"
+            >
+                 <ShoppingCart />
+
+            </motion.div>
+            <motion.div
+                initial={{ opacity: 0, y: -50 }}
+                animate={{ opacity: 0.2, y: 0 }}
+                transition={{ duration: 0.5, delay: 0.7 }}
+                className="absolute top-520 right-64 transform -rotate-12 opacity-20"
+            >
+                 <ShoppingCart />
+
+            </motion.div>
+            <motion.div
+                initial={{ opacity: 0, y: -50 }}
+                animate={{ opacity: 0.2, y: 0 }}
+                transition={{ duration: 0.5, delay: 0.7 }}
+                className="absolute top-520 left-64 transform -rotate-12 opacity-20"
+            >
+                 <ShoppingCart />
+
+            </motion.div>
+
+            {/* Signup Container */}
             <motion.div
                 initial={{ opacity: 0, scale: 0.9 }}
                 animate={{ opacity: 1, scale: 1 }}
                 transition={{ duration: 0.3 }}
-                className="bg-white p-8 rounded-2xl shadow-2xl w-full max-w-md"
+                className="relative z-10 bg-white/80 backdrop-blur-md p-8 rounded-2xl shadow-2xl w-full max-w-md border border-pink-100/50"
             >
-                <h2 className="text-3xl font-bold text-center mb-6 text-green-800">
-                    Create Account
-                </h2>
+                <div className="text-center mb-6">
+                    <h2 className="text-3xl font-bold text-transparent bg-clip-text 
+            bg-gradient-to-r from-pink-500 to-purple-600">
+                        Create Your Account
+                    </h2>
+                    <p className="text-sm text-gray-500 mt-2">
+                        Join our fashion community
+                    </p>
+                </div>
 
-                <Formik
+                
+
+                <SignupErrorMessage error={signupError} />
+
+                <SignupForm
                     initialValues={{
                         username: '',
                         email: '',
@@ -86,111 +137,24 @@ const Signup: React.FC = () => {
                     }}
                     validationSchema={SignupSchema}
                     onSubmit={handleSignup}
-                >
-                    {({ errors, touched }) => (
-                        <Form className="space-y-6">
-                            <div>
-                                <label htmlFor="username" className="block text-sm font-medium text-gray-700 mb-2">
-                                    Username
-                                </label>
-                                <Field
-                                    type="text"
-                                    name="username"
-                                    className={`w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 
-                    ${errors.username && touched.username
-                                            ? 'border-red-500 focus:ring-red-500'
-                                            : 'border-gray-300 focus:ring-green-500'}`}
-                                />
-                                <ErrorMessage
-                                    name="username"
-                                    component="p"
-                                    className="text-red-500 text-xs mt-1"
-                                />
-                            </div>
-
-                            <div>
-                                <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-2">
-                                    Email
-                                </label>
-                                <Field
-                                    type="email"
-                                    name="email"
-                                    className={`w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 
-                    ${errors.email && touched.email
-                                            ? 'border-red-500 focus:ring-red-500'
-                                            : 'border-gray-300 focus:ring-green-500'}`}
-                                />
-                                <ErrorMessage
-                                    name="email"
-                                    component="p"
-                                    className="text-red-500 text-xs mt-1"
-                                />
-                            </div>
-
-                            <div>
-                                <label htmlFor="password" className="block text-sm font-medium text-gray-700 mb-2">
-                                    Password
-                                </label>
-                                <Field
-                                    type="password"
-                                    name="password"
-                                    className={`w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 
-                    ${errors.password && touched.password
-                                            ? 'border-red-500 focus:ring-red-500'
-                                            : 'border-gray-300 focus:ring-green-500'}`}
-                                />
-                                <ErrorMessage
-                                    name="password"
-                                    component="p"
-                                    className="text-red-500 text-xs mt-1"
-                                />
-                            </div>
-
-                            <div>
-                                <label htmlFor="confirmPassword" className="block text-sm font-medium text-gray-700 mb-2">
-                                    Confirm Password
-                                </label>
-                                <Field
-                                    type="password"
-                                    name="confirmPassword"
-                                    className={`w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 
-                    ${errors.confirmPassword && touched.confirmPassword
-                                            ? 'border-red-500 focus:ring-red-500'
-                                            : 'border-gray-300 focus:ring-green-500'}`}
-                                />
-                                <ErrorMessage
-                                    name="confirmPassword"
-                                    component="p"
-                                    className="text-red-500 text-xs mt-1"
-                                />
-                            </div>
-
-                            <motion.button
-                                whileHover={{ scale: 1.05 }}
-                                whileTap={{ scale: 0.95 }}
-                                type="submit"
-                                className="w-full bg-green-600 text-white py-3 rounded-lg 
-                  hover:bg-green-700 transition duration-300 font-semibold"
-                            >
-                                Sign Up
-                            </motion.button>
-                        </Form>
-                    )}
-                </Formik>
+                />
 
                 <div className="text-center mt-6">
                     <p className="text-sm text-gray-600">
-                        Already have an account?{' '}
+                        Already a member?{' '}
                         <button
                             onClick={() => navigate(RouteName.LOGIN)}
-                            className="text-green-600 hover:underline font-medium"
+                            className="text-pink-600 hover:underline font-medium"
                         >
                             Log In
                         </button>
                     </p>
+                    
                 </div>
             </motion.div>
+            
         </div>
+        
     );
 };
 
