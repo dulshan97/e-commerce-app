@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Outlet } from 'react-router-dom';
 import {
     ShoppingCart,
@@ -7,7 +7,7 @@ import {
     Heart,
     Menu,
     X,
-   } from 'lucide-react';
+} from 'lucide-react';
 
 import logo from '../../assets/images/layoutHeader/logo.png';
 import CartMenu from '../Cart/cartMenu';
@@ -31,18 +31,38 @@ const NavBar: React.FC<NavBarProps> = ({
 }) => {
     const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
     const [isCartOpen, setIsCartOpen] = useState(false);
+    const [scrolled, setScrolled] = useState(false);
     const { cart } = useCart();
     ;
     const [isUserMenuOpen, setIsUserMenuOpen] = useState(false);
 
     const toggleUserMenu = () => setIsUserMenuOpen(!isUserMenuOpen);
 
+    useEffect(() => {
+        const handleScroll = () => {
+            const offset = window.scrollY;
+            setScrolled(offset > 50);
+        };
+
+        window.addEventListener('scroll', handleScroll);
+        return () => {
+            window.removeEventListener('scroll', handleScroll);
+        };
+    }, []);
+
 
 
     const toggleCart = () => setIsCartOpen(!isCartOpen);
     return (
         <div className="min-h-screen flex flex-col">
-            <header className="bg-slate-950 shadow-md">
+            <header
+                className={`fixed top-0 left-0 right-0 z-40 transition-all duration-300 ease-in-out 
+                    bg-slate-950/90 backdrop-blur-md
+                    ${scrolled
+                        ? 'shadow-md'
+                        : 'shadow-none'
+                    }`}
+            >
                 <div className="mx-auto px-14 py-4 flex flex-col md:flex-row justify-between items-center">
                     <div className="w-full flex justify-between items-center">
                         <img
@@ -120,7 +140,7 @@ const NavBar: React.FC<NavBarProps> = ({
 
             <CartMenu isCartOpen={isCartOpen} toggleCart={toggleCart} />
 
-            <main className="flex-grow p-4">
+            <main className="flex-grow p-24">
                 <Outlet />
             </main>
 
