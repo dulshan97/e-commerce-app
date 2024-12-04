@@ -1,12 +1,12 @@
 import { Product } from "../models/product";
 import lightweightHoodie from "../assets/images/productList/clothing1.png";
-import { generateId } from "../Utils/idgenetrator";
+import { generateId } from "../Utils/idGenetrator";
 
 
-// Utility for generating unique IDs
 
 
-// Mock data service
+
+
 export const ProductService = {
   getProducts: (): Product[] => [
     {

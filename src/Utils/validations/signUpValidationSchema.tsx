@@ -1,4 +1,3 @@
-// src/Utils/validations/signupValidation.ts
 import * as Yup from 'yup';
 
 export const SignupSchema = Yup.object().shape({

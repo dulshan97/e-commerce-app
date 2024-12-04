@@ -1,4 +1,3 @@
-// src/components/Cart/cartMenu.tsx
 import { AnimatePresence, motion } from 'framer-motion';
 import { X, Trash2 } from 'lucide-react';
 import React from 'react';

@@ -1,4 +1,3 @@
-// src/components/Login/LoginErrorMessage.tsx
 import React from 'react';
 
 interface LoginErrorMessageProps {

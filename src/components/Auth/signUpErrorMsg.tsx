@@ -1,4 +1,3 @@
-// src/components/Signup/SignupErrorMessage.tsx
 import React from 'react';
 
 interface SignupErrorMessageProps {

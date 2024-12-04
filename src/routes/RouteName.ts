@@ -1,7 +1,8 @@
 export enum RouteName {
-    ROOT = "/",
+    // ROOT = "/",
+    NOTFOUND = "/",
+    PRODUCTLIST = "/product-list",
     LOGIN = "/login",
-    SIGNIN = '/signin',
     SIGNUP = '/signup',
     CART = '/cart'
 }

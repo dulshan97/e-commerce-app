@@ -1,4 +1,3 @@
-// src/components/Signup/SignupForm.tsx
 import React from 'react';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import { motion } from 'framer-motion';
@@ -6,6 +5,7 @@ import { SignupSchema } from '../../Utils/validations/signUpValidationSchema';
 
 interface SignupFormProps {
   initialValues: { 
+    id:string;
     username: string; 
     email: string; 
     password: string; 
@@ -13,6 +13,7 @@ interface SignupFormProps {
   };
   validationSchema: typeof SignupSchema;
   onSubmit: (values: { 
+    id:string;
     username: string; 
     email: string; 
     password: string 
@@ -29,6 +30,7 @@ const SignupForm: React.FC<SignupFormProps> = ({
       initialValues={initialValues}
       validationSchema={validationSchema}
       onSubmit={(values) => onSubmit({
+        id:values.id,
         username: values.username,
         email: values.email,
         password: values.password

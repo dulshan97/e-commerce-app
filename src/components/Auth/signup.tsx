@@ -1,4 +1,4 @@
-// src/pages/Signup.tsx
+
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
@@ -8,6 +8,7 @@ import { SignupSchema } from '../../Utils/validations/signUpValidationSchema';
 import SignupErrorMessage from './signUpErrorMsg';
 import SignupForm from './signUpForm';
 import { Shirt, ShoppingCart } from 'lucide-react';
+import { generateId } from '../../Utils/idGenetrator';
 
 
 const Signup: React.FC = () => {
@@ -15,40 +16,42 @@ const Signup: React.FC = () => {
     const [signupError, setSignupError] = useState('');
 
     const handleSignup = (values: {
+        id:string;
         username: string;
         email: string;
         password: string
     }) => {
         try {
-            // Store user data in local storage
+           
             const users = JSON.parse(localStorage.getItem('registeredUsers') || '[]');
 
-            // Check if email already exists
+            
             const existingUser = users.find((u: UserDetails) => u.email === values.email);
             if (existingUser) {
                 setSignupError('Email already registered');
                 return;
             }
 
-            // Create new user object
+            
             const newUser: UserDetails = {
                 name: values.username,
+                id:generateId(),
                 email: values.email,
-                password: values.password, // In a real app, hash this!
+                password: values.password,
                 registeredAt: new Date().toISOString()
             };
 
-            // Add to users and save
+           
             users.push(newUser);
             localStorage.setItem('registeredUsers', JSON.stringify(users));
 
-            // Set current user
+           
             localStorage.setItem('currentUser', JSON.stringify({
                 ...newUser,
                 isAuthenticated: true
             }));
 
-            navigate(RouteName.ROOT);
+            navigate(RouteName.PRODUCTLIST);
         } catch (error) {
             setSignupError('Signup failed');
             console.error('Signup failed', error);
@@ -107,7 +110,7 @@ const Signup: React.FC = () => {
 
             </motion.div>
 
-            {/* Signup Container */}
+            
             <motion.div
                 initial={{ opacity: 0, scale: 0.9 }}
                 animate={{ opacity: 1, scale: 1 }}
@@ -130,6 +133,7 @@ const Signup: React.FC = () => {
 
                 <SignupForm
                     initialValues={{
+                        id:"",
                         username: '',
                         email: '',
                         password: '',

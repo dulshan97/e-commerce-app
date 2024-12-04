@@ -1,5 +1,5 @@
 import React from 'react';
-import { Navigate, Outlet } from 'react-router-dom'; // Ensure this import is from 'react-router-dom'
+import { Navigate, Outlet } from 'react-router-dom'; 
 import { RouteName } from '../../routes/RouteName';
 
 const ProtectedRoute: React.FC = () => {
