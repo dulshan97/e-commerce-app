@@ -23,6 +23,8 @@ const ProductList: React.FC<ProductListProps> = ({
 
   const { addToCart } = useCart();
 
+  
+
   const filteredProducts = useMemo(
     () =>
       products.filter(
