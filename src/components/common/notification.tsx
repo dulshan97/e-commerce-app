@@ -9,10 +9,9 @@ import {
     XCircle
 } from "lucide-react";
 
-// Exported type for use in the hook
+
 export type NotificationType = 'success' | 'error' | 'info' | 'warning' | 'cart' | 'favorite';
 
-// Exported interface for use in the hook
 export interface NotificationProps {
     message: string;
     type?: NotificationType;
@@ -20,7 +19,7 @@ export interface NotificationProps {
     onClose?: () => void;
 }
 
-// Notification styles remain the same
+
 export const notificationStyles: Record<NotificationType, {
     icon: React.ElementType,
     bgColor: string,
