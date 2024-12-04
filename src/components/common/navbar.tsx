@@ -1,4 +1,4 @@
-import  { useState } from 'react';
+import { useState } from 'react';
 import { Outlet } from 'react-router-dom';
 import {
     ShoppingCart,
@@ -7,11 +7,14 @@ import {
     Heart,
     Menu,
     X,
-} from 'lucide-react';
-import { motion } from 'framer-motion';
+   } from 'lucide-react';
+
 import logo from '../../assets/images/layoutHeader/logo.png';
 import CartMenu from '../Cart/cartMenu';
 import { useCart } from '../../context/cartContext';
+
+import UserMenu from './userProfile';
+import { motion } from 'framer-motion';
 
 interface NavBarProps {
     searchTerm: string;
@@ -29,9 +32,14 @@ const NavBar: React.FC<NavBarProps> = ({
     const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
     const [isCartOpen, setIsCartOpen] = useState(false);
     const { cart } = useCart();
+    ;
+    const [isUserMenuOpen, setIsUserMenuOpen] = useState(false);
+
+    const toggleUserMenu = () => setIsUserMenuOpen(!isUserMenuOpen);
+
+
 
     const toggleCart = () => setIsCartOpen(!isCartOpen);
-
     return (
         <div className="min-h-screen flex flex-col">
             <header className="bg-slate-950 shadow-md">
@@ -55,9 +63,8 @@ const NavBar: React.FC<NavBarProps> = ({
                         </button>
 
                         <div
-                            className={`w-full md:w-auto flex flex-col md:flex-row items-center space-y-4 md:space-y-0 md:space-x-4 transition-all duration-300 ease-in-out ${
-                                mobileMenuOpen ? 'max-h-screen opacity-100' : 'max-h-0 opacity-0 md:opacity-100'
-                            }`}
+                            className={`w-full md:w-auto flex flex-col md:flex-row items-center space-y-4 md:space-y-0 md:space-x-4 transition-all duration-300 ease-in-out ${mobileMenuOpen ? 'max-h-screen opacity-100' : 'max-h-0 opacity-0 md:opacity-100'
+                                }`}
                         >
                             <div className="relative w-full md:w-auto">
                                 <input
@@ -83,11 +90,15 @@ const NavBar: React.FC<NavBarProps> = ({
                     </div>
 
                     <div
-                        className={`w-full md:w-auto flex justify-between md:justify-end items-center space-x-4 ${
-                            mobileMenuOpen ? 'block' : 'hidden md:flex'
-                        } mt-4 md:mt-0`}
+                        className={`w-full md:w-auto flex justify-between md:justify-end items-center space-x-4 ${mobileMenuOpen ? 'block' : 'hidden md:flex'
+                            } mt-4 md:mt-0`}
                     >
-                        <motion.button whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.9 }} className="relative md:pl-5">
+                        <motion.button
+                            whileHover={{ scale: 1.1 }}
+                            whileTap={{ scale: 0.9 }}
+                            className="relative md:pl-5"
+                            onClick={toggleUserMenu}
+                        >
                             <User color="white" />
                         </motion.button>
 
@@ -104,6 +115,8 @@ const NavBar: React.FC<NavBarProps> = ({
                     </div>
                 </div>
             </header>
+
+            <UserMenu isUserMenuOpen={isUserMenuOpen} toggleUserMenu={toggleUserMenu} />
 
             <CartMenu isCartOpen={isCartOpen} toggleCart={toggleCart} />
 
