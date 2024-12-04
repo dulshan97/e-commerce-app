@@ -16,14 +16,13 @@ const useCart = () => {
     setCart((prevCart) => {
       const existingItem = prevCart.find((cartItem) => cartItem.id === item.id);
       if (existingItem) {
-        // Increase quantity if item already exists
         return prevCart.map((cartItem) =>
           cartItem.id === item.id
             ? { ...cartItem, quantity: cartItem.quantity + 1 }
             : cartItem
         );
       }
-      // Add new item to the cart
+      
       return [...prevCart, { ...item, quantity: 1 }];
     });
   };
