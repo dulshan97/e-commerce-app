@@ -38,12 +38,12 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, isFavorite, toggleFa
         <p className="text-gray-600 mb-2">{product.description}</p>
         <div className="flex justify-between items-center">
           <span className="text-xl font-bold">${product.price.toFixed(2)}</span>
-          <div className="flex space-x-2">
+          <div className="flex flex-wrap items-center gap-2">
             <motion.button
               whileHover={{ scale: 1.1 }}
               whileTap={{ scale: 0.9 }}
-              onClick={() => addToCart(product) }
-              className="bg-blue-500 text-white px-4 py-2 rounded-full"
+              onClick={() => addToCart(product)}
+              className="bg-blue-500 text-white px-4 py-2 rounded-full text-sm font-medium  hover:bg-blue-600 focus:ring-2 focus:ring-blue-300 focus:outline-none"
             >
               Add to Cart
             </motion.button>
@@ -51,9 +51,12 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, isFavorite, toggleFa
               whileHover={{ scale: 1.1 }}
               whileTap={{ scale: 0.9 }}
               onClick={() => toggleFavorite(product.id)}
-              className={`text-red-500 ${isFavorite ? 'fill-current' : ''}`}
+              className={`hidden custom-350:flex items-center justify-center w-8 h-8 rounded-full border transition duration-75 ${isFavorite
+                  ? 'bg-red-100 text-red-500 border-red-300 hover:bg-red-200'
+                  : 'bg-gray-100 text-gray-500 border-gray-300 hover:bg-gray-200'
+                } focus:ring-2 focus:ring-red-300 focus:outline-none`}
             >
-              <Heart />
+              <Heart className="w-4 h-4" />
             </motion.button>
           </div>
         </div>
