@@ -7,7 +7,7 @@ import { RouteName } from './routes/RouteName';
 import { CartProvider } from './context/cartContext';
 import { useState } from 'react';
 import ProtectedRoute from './components/common/protectedRoute';
-import PageNotFound from './components/common/404';
+// import PageNotFound from './components/common/404';
 
 
 const App = () => {
@@ -21,7 +21,7 @@ const App = () => {
         <Routes>
           <Route path={RouteName.LOGIN} element={<Login />} />
           <Route path={RouteName.SIGNUP} element={<Signup />} />
-          <Route path={RouteName.NOTFOUND} element={<PageNotFound />} />
+          {/* <Route path={RouteName.NOTFOUND} element={<PageNotFound />} /> */}
 
           <Route element={<ProtectedRoute />}>
 

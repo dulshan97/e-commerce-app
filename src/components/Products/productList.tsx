@@ -1,9 +1,11 @@
 
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { ProductService } from "../../services/productServices";
 import { Product } from "../../models/product";
 import ProductCard from "./productCard";
 import { useCart } from "../../context/cartContext";
+import { useNavigate } from "react-router-dom";
+import { RouteName } from "../../routes/RouteName";
 
 interface ProductListProps {
   searchTerm: string;
@@ -14,16 +16,22 @@ const ProductList: React.FC<ProductListProps> = ({
   searchTerm,
   selectedCategory
 }) => {
+  const navigate = useNavigate()
+
+  useEffect(() => {
+    const user = localStorage.getItem('registeredUsers');
+    if (!user) {
+      navigate(RouteName.LOGIN)
+    }
+  }, [navigate])
 
   const [products] = useState<Product[]>(ProductService.getProducts());
-  
-  const [favoriteProducts, setFavoriteProducts] = useState<string[]>([]);
 
-  console.log("favourite", favoriteProducts)
+  const [favoriteProducts, setFavoriteProducts] = useState<string[]>([]);
 
   const { addToCart } = useCart();
 
-  
+
 
   const filteredProducts = useMemo(
     () =>
